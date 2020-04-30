@@ -242,24 +242,36 @@ void k_hdr_include(int hdrincl);
 void k_set_ttl(int t);
 void k_set_loop(int l);
 void k_set_if(uint32_t ifa);
-void k_join(struct IfDesc *ifd, uint32_t grp);
-void k_leave(struct IfDesc *ifd, uint32_t grp);
+/*
+void k_join(uint32_t grp, uint32_t ifa);
+void k_leave(uint32_t grp, uint32_t ifa);
+*/
+
+/* udpsock.c
+ */
+int openUdpSocket( uint32_t PeerInAdr, uint16_t PeerPort );
+
+/* mcgroup.c
+ */
+int joinMcGroup( int UdpSock, struct IfDesc *IfDp, uint32_t mcastaddr, uint32_t originAddr );
+int leaveMcGroup( int UdpSock, struct IfDesc *IfDp, uint32_t mcastaddr, uint32_t originAddr );
+
 
 /* rttable.c
  */
 void initRouteTable(void);
 void clearAllRoutes(void);
-int insertRoute(uint32_t group, int ifx, uint32_t src);
+int insertRoute(uint32_t group, int ifx, uint32_t src, struct in_addr *originAddr, uint16_t numOriginAddr, u_char type);
 int activateRoute(uint32_t group, uint32_t originAddr, int upstrVif);
 void ageActiveRoutes(void);
-void setRouteLastMemberMode(uint32_t group, uint32_t src);
+void setRouteLastMemberMode(uint32_t group, uint32_t src, struct in_addr *originAddr, uint16_t numOriginAddr );
 int lastMemberGroupAge(uint32_t group);
 int interfaceInRoute(int32_t group, int Ix);
 
 /* request.c
  */
-void acceptGroupReport(uint32_t src, uint32_t group);
-void acceptLeaveMessage(uint32_t src, uint32_t group);
+void acceptGroupReport(uint32_t src, uint32_t group, struct in_addr *originAddr, uint16_t numOriginAddr, u_char type);
+void acceptLeaveMessage(uint32_t src, uint32_t group, struct in_addr *originAddr, uint16_t numOriginAddr );
 void sendGeneralMembershipQuery(void);
 
 /* callout.c 
