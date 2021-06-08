@@ -132,12 +132,11 @@ void initRouteTable(void) {
             my_log(LOG_DEBUG, 0, "Joining all-routers group %s on vif %s",
                          inetFmt(allrouters_group,s1),inetFmt(Dp->InAdr.s_addr,s2));
 
-            //k_join(allrouters_group, Dp->InAdr.s_addr);
-            joinMcGroup( getMcGroupSock(), Dp, allrouters_group, 0 );
+            k_join(Dp, allrouters_group, 0);
 
             my_log(LOG_DEBUG, 0, "Joining all igmpv3 multicast routers group %s on vif %s",
                          inetFmt(alligmp3_group,s1),inetFmt(Dp->InAdr.s_addr,s2));
-            joinMcGroup( getMcGroupSock(), Dp, alligmp3_group, 0 );
+            k_join(Dp, alligmp3_group, 0);
         }
     }
 }
@@ -183,7 +182,7 @@ static void JoinLeaveUpstreams(int cmd, uint32_t mcastaddr, uint32_t originAddr)
                 inetFmt(mcastaddr, s1),
                 inetFmt(upstrIf->InAdr.s_addr, s2));
 
-        joinleave( cmd, getMcGroupSock(), upstrIf, mcastaddr, originAddr );
+        k_joinleave(cmd, upstrIf, mcastaddr, originAddr);
     }
 }
 
