@@ -17,6 +17,8 @@
 #define IGMP_V3_MEMBERSHIP_REPORT IGMP_v3_HOST_MEMBERSHIP_REPORT
 #endif
 
+#define INADDR_ALLIGMPV3_GROUP ((in_addr_t) 0xe0000016)
+
 static inline unsigned short ip_data_len(const struct ip *ip)
 {
 #if __FreeBSD_version >= 1100030

@@ -97,10 +97,7 @@ extern char     s2[];
 extern char		s3[];
 extern char		s4[];
 
-/*
- * Group address or IGMPv3 messages: 224.0.0.22
- */
-#define INADDR_ALLIGMPV3_GROUP ((in_addr_t) 0xe0000016)
+
 
 //#################################################################################
 //  Lib function prototypes.
