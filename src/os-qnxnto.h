@@ -1,7 +1,7 @@
 #include <netinet/in_systm.h>
 #include <netinet/ip_mroute.h>
 #include <netinet/ip.h>
-#include "igmp.h"
+#include <netinet/igmp.h>
 
 #define IGMP_MEMBERSHIP_QUERY IGMP_HOST_MEMBERSHIP_QUERY
 #define IGMP_V1_MEMBERSHIP_REPORT IGMP_v1_HOST_MEMBERSHIP_REPORT

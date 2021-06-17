@@ -2,10 +2,10 @@
 #define _GNU_SOURCE
 #include <netinet/in.h>
 #include <netinet/ip.h>
+#include <netinet/igmp.h>
 #include <sys/types.h>
 #include <linux/types.h>
 #include <linux/mroute.h>
-#include "igmp.h"
 
 #define IGMP_MEMBERSHIP_QUERY IGMP_HOST_MEMBERSHIP_QUERY
 #define IGMP_V1_MEMBERSHIP_REPORT IGMP_v1_HOST_MEMBERSHIP_REPORT

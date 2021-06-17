@@ -138,7 +138,11 @@ void my_log( int Serverity, int Errno, const char *FmtSt, ... );
 #define ROUTESTATE_JOINED               1   // The group corresponding to route is joined
 #define ROUTESTATE_CHECK_LAST_MEMBER    2   // The router is checking for hosts
 
-
+/*
+ * IGMPv3 filter modes
+ */
+#define IGMP_FILTER_MODE_EXCLUDE    1
+#define IGMP_FILTER_MODE_INCLUDE    2
 
 // Linked list of networks...
 struct SubnetList {
