@@ -244,7 +244,7 @@ void acceptIgmp(int recvlen) {
             }
             /* next group record after array of source addresses (of size nsrcs) and auxiliary data */
             grec = (struct igmp_grouprec *)
-                ((uint8_t *)grec + (nsrcs * sizeof(struct in_addr) + (grec->ig_datalen * 4));
+                ((uint8_t *)grec + (nsrcs * sizeof(struct in_addr) + (grec->ig_datalen * 4)));
         }
         return;
 

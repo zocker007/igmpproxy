@@ -84,7 +84,7 @@ struct igmp_grouprec {
     u_char          ig_datalen; /* length of auxiliary data */
     u_short         ig_numsrc;  /* number of sources */
     struct in_addr  ig_group;   /* group address being reported */
-    struct in_addr  ig_sources[];  /* source addresses */
+    /*struct in_addr  ig_sources[];*/ /* source addresses */
 };
 #define IGMP_GRPREC_HDRLEN  8
 
@@ -97,7 +97,7 @@ struct igmp_report {
     u_short         ir_cksum;   /* checksum */
     u_short         ir_rsv2;    /* must be zero */
     u_short         ir_numgrps; /* number of group records */
-    struct	igmp_grouprec   ir_groups[];   /* group records */
+    /*struct	igmp_grouprec   ir_groups[];*/ /* group records */
 };
 #define IGMP_V3_REPORT_MINLEN   8
 #define IGMP_V3_REPORT_MAXRECS  65535
@@ -150,10 +150,5 @@ struct igmp_report {
  * time in tenths of a second.
  */
 #define IGMP_TIMER_SCALE    10
-
-/*
- * Group address or IGMPv3 messages: 224.0.0.22
- */
-#define INADDR_ALLIGMPV3_GROUP ((in_addr_t) 0xe0000016)
 
 #endif /* _NETINET_IGMP_H_ */
