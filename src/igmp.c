@@ -109,6 +109,7 @@ void acceptIgmp(int recvlen) {
     struct igmp *igmp;
     struct igmp_report *igmpv3;
     struct igmp_grouprec *grec;
+    struct in_addr *psrcs;
     int ipdatalen, iphdrlen, ngrec, nsrcs, i;
 
     if (recvlen < (int)sizeof(struct ip)) {
@@ -205,12 +206,16 @@ void acceptIgmp(int recvlen) {
 
     case IGMP_V3_MEMBERSHIP_REPORT:
         igmpv3 = (struct igmp_report *)(recv_buf + iphdrlen);
-        grec = &igmpv3->ir_groups[0];
+        /* array of group records at the end of igmp_report (see definition in netinet/igmp.h) */
+        grec = (struct igmp_grouprec *)((uint8_t *)igmpv3 + sizeof(struct igmp_report));
         ngrec = ntohs(igmpv3->ir_numgrps);
         while (ngrec--) {
-            if ((uint8_t *)igmpv3 + ipdatalen < (uint8_t *)grec + sizeof(*grec))
+            /* check if next group record fits in datalength */
+            if ((uint8_t *)igmpv3 + ipdatalen < (uint8_t *)grec + sizeof(struct igmp_grouprec))
                 break;
             group = grec->ig_group.s_addr;
+            /* array of source addresses at the end of igmp_grouprec (see definition in netinet/igmp.h) */
+            psrcs = (struct in_addr *)((uint8_t *)grec + sizeof(struct igmp_grouprec));
             nsrcs = ntohs(grec->ig_numsrc);
             switch (grec->ig_type) {
             case IGMP_MODE_IS_INCLUDE:
@@ -220,14 +225,14 @@ void acceptIgmp(int recvlen) {
                     break;
                 } /* else fall through */
             case IGMP_ALLOW_NEW_SOURCES:
-                acceptGroupReport(src, group, grec->ig_sources, nsrcs, grec->ig_type);
+                acceptGroupReport(src, group, psrcs, nsrcs, grec->ig_type);
                 break;
             case IGMP_MODE_IS_EXCLUDE:
             case IGMP_CHANGE_TO_EXCLUDE_MODE:
                 acceptGroupReport(src, group, NULL, 0, grec->ig_type);
                 break;
             case IGMP_BLOCK_OLD_SOURCES:
-                acceptLeaveMessage(src, group, grec->ig_sources, nsrcs);
+                acceptLeaveMessage(src, group, psrcs, nsrcs);
                 break;
 
             default:
@@ -237,8 +242,9 @@ void acceptIgmp(int recvlen) {
                     inetFmt(group, s3));
                 break;
             }
+            /* next group record after array of source addresses (of size nsrcs) and auxiliary data */
             grec = (struct igmp_grouprec *)
-                (&grec->ig_sources[nsrcs] + grec->ig_datalen * 4);
+                ((uint8_t *)grec + (nsrcs * sizeof(struct in_addr) + (grec->ig_datalen * 4));
         }
         return;
 
