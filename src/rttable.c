@@ -457,24 +457,24 @@ int insertRoute(uint32_t group, int ifx, uint32_t src, struct in_addr *originAdd
     switch(mode) {
         case IGMP_ALLOW_NEW_SOURCES:
         case IGMP_CHANGE_TO_INCLUDE_MODE:
-            if(croute->mode == IGMP_FILTER_MODE_INCLUDE) {
+            if(croute->mode == ROUTEMODE_IGMP_INCLUDE) {
                 sendJoin = 1;
             } /* else fall through */
         case IGMP_MODE_IS_INCLUDE:
             // don't allow include mode when other downstream hosts have requested exclude mode
-            if(croute->mode == IGMP_FILTER_MODE_EXCLUDE) {
+            if(croute->mode == ROUTEMODE_IGMP_EXCLUDE) {
                 break;
             }
 
-            croute->mode = IGMP_FILTER_MODE_INCLUDE;
+            croute->mode = ROUTEMODE_IGMP_INCLUDE;
             break;
         case IGMP_CHANGE_TO_EXCLUDE_MODE:
-            if(croute->mode == IGMP_FILTER_MODE_INCLUDE) {
+            if(croute->mode == ROUTEMODE_IGMP_INCLUDE) {
                 sendJoin = 1;
             } /* else fall through */
         case IGMP_MODE_IS_EXCLUDE:
         default:
-            croute->mode = IGMP_FILTER_MODE_EXCLUDE;
+            croute->mode = ROUTEMODE_IGMP_EXCLUDE;
     }
 
     // Send join message upstream, if the route has no joined flag...

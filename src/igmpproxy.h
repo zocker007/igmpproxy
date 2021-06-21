@@ -97,10 +97,6 @@ extern char     s2[];
 extern char		s3[];
 extern char		s4[];
 
-/*
- * Group address or IGMPv3 messages: 224.0.0.22
- */
-#define INADDR_ALLIGMPV3_GROUP ((in_addr_t) 0xe0000016)
 
 //#################################################################################
 //  Lib function prototypes.
@@ -138,6 +134,11 @@ void my_log( int Serverity, int Errno, const char *FmtSt, ... );
 #define ROUTESTATE_JOINED               1   // The group corresponding to route is joined
 #define ROUTESTATE_CHECK_LAST_MEMBER    2   // The router is checking for hosts
 
+/*
+ * IGMPv3 filter modes
+ */
+#define ROUTEMODE_IGMP_EXCLUDE    1
+#define ROUTEMODE_IGMP_INCLUDE    2
 
 
 // Linked list of networks...
