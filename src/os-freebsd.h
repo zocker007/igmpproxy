@@ -6,7 +6,7 @@
 #include <netinet/in_systm.h>
 #include <netinet/ip_mroute.h>
 #include <netinet/ip.h>
-#include "igmp.h"
+#include <netinet/igmp.h>
 
 #if __FreeBSD_version >= 800069 && defined BURN_BRIDGES \
     || __FreeBSD_version >= 800098
@@ -16,6 +16,8 @@
 #define IGMP_V2_LEAVE_GROUP IGMP_HOST_LEAVE_MESSAGE
 #define IGMP_V3_MEMBERSHIP_REPORT IGMP_v3_HOST_MEMBERSHIP_REPORT
 #endif
+
+#define INADDR_ALLIGMPV3_GROUP ((in_addr_t) 0xe0000016)
 
 static inline unsigned short ip_data_len(const struct ip *ip)
 {
