@@ -98,7 +98,6 @@ extern char		s3[];
 extern char		s4[];
 
 
-
 //#################################################################################
 //  Lib function prototypes.
 //#################################################################################
@@ -138,8 +137,9 @@ void my_log( int Serverity, int Errno, const char *FmtSt, ... );
 /*
  * IGMPv3 filter modes
  */
-#define IGMP_FILTER_MODE_EXCLUDE    1
-#define IGMP_FILTER_MODE_INCLUDE    2
+#define ROUTEMODE_IGMP_EXCLUDE    1
+#define ROUTEMODE_IGMP_INCLUDE    2
+
 
 // Linked list of networks...
 struct SubnetList {
